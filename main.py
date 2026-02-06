@@ -44,7 +44,7 @@ def upload_to_s3(file_obj, filename):
 
 @app.get("/")
 def read_index():
-    return FileResponse("index.html")
+    return FileResponse("/var/www/html/index.html")
 
 
 @app.get("/tweets")
