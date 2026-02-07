@@ -346,12 +346,14 @@
             border-radius: 14px;
             overflow: hidden;
             border: 1px solid var(--border-color);
+            background: var(--bg-hover);
         }
 
         .post-image-wrap img {
             width: 100%;
-            max-height: 400px;
-            object-fit: cover;
+            height: auto;
+            max-height: 520px;
+            object-fit: contain;
             display: block;
             cursor: pointer;
             transition: transform 0.25s;
@@ -575,7 +577,7 @@
         .thread-original .post-card-header { margin-bottom: 10px; }
         .thread-original .post-text { font-size: 15px; }
         .thread-original .post-image-wrap { margin-top: 12px; }
-        .thread-original .post-image-wrap img { max-height: 280px; }
+        .thread-original .post-image-wrap img { max-height: 400px; }
 
         /* Divider for replies */
         .replies-divider {
@@ -1131,7 +1133,7 @@
 
             .post-username { font-size: 14px; }
             .post-text { font-size: 14px; }
-            .post-image-wrap img { max-height: 240px; }
+            .post-image-wrap img { max-height: 360px; }
 
             .action-btn {
                 padding: 8px 4px;
