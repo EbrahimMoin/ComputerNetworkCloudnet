@@ -1604,13 +1604,30 @@
         }
 
         // ======================== SHARE ========================
+        function copyToClipboard(text) {
+            // Works on both HTTP and HTTPS
+            const tmp = document.createElement('textarea');
+            tmp.value = text;
+            tmp.setAttribute('readonly', '');
+            tmp.style.position = 'fixed';
+            tmp.style.left = '-9999px';
+            tmp.style.opacity = '0';
+            document.body.appendChild(tmp);
+            tmp.select();
+            tmp.setSelectionRange(0, 99999); // mobile support
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+            document.body.removeChild(tmp);
+            return ok;
+        }
+
         function sharePost(post) {
             const url = window.location.origin + '/#post-' + post.id;
             const user = post.username || 'Anonymous';
             const text = post.content.length > 80 ? post.content.slice(0, 80) + '...' : post.content;
 
-            // Try native Web Share API (mobile browsers, some desktops)
-            if (navigator.share) {
+            // Try native Web Share API first (HTTPS + supported browsers)
+            if (navigator.share && window.isSecureContext) {
                 navigator.share({
                     title: 'Post by ' + user + ' on Pulse',
                     text: text,
@@ -1619,21 +1636,27 @@
                 return;
             }
 
-            // Fallback: copy link to clipboard
-            navigator.clipboard.writeText(url).then(() => {
+            // Try modern clipboard API (requires HTTPS)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(() => {
+                    showToast('Link copied to clipboard!', 'success');
+                }).catch(() => {
+                    if (copyToClipboard(url)) {
+                        showToast('Link copied to clipboard!', 'success');
+                    } else {
+                        prompt('Copy this link to share:', url);
+                    }
+                });
+                return;
+            }
+
+            // Fallback for HTTP: use execCommand
+            if (copyToClipboard(url)) {
                 showToast('Link copied to clipboard!', 'success');
-            }).catch(() => {
-                // Final fallback for older browsers
-                const tmp = document.createElement('textarea');
-                tmp.value = url;
-                tmp.style.position = 'fixed';
-                tmp.style.opacity = '0';
-                document.body.appendChild(tmp);
-                tmp.select();
-                document.execCommand('copy');
-                document.body.removeChild(tmp);
-                showToast('Link copied to clipboard!', 'success');
-            });
+            } else {
+                // Last resort: show a prompt with the URL so user can copy manually
+                prompt('Copy this link to share:', url);
+            }
         }
 
         // ======================== OPEN THREAD ========================
