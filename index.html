@@ -405,6 +405,7 @@
             color: var(--text-secondary);
             font-family: inherit;
             font-size: 14px;
+            transform: scale(1);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.15s;
@@ -412,8 +413,8 @@
 
         .action-btn:hover { background: var(--bg-hover); }
 
-        .action-btn.like:hover,
-        .action-btn.like.liked { color: var(--like-color); background: rgba(239,68,68,0.08); }
+        .action-btn.like:hover { color: var(--like-color); background: rgba(239,68,68,0.08); }
+        .action-btn.like.liked { color: var(--like-color); background: rgba(239,68,68,0.08); font-weight: 600; }
 
         .action-btn.reply:hover,
         .action-btn.reply.active-reply { color: var(--accent); background: rgba(232,93,4,0.08); }
@@ -1332,7 +1333,8 @@
         let allPosts = [];
         let activePostId = null;
         let currentUser = localStorage.getItem('pulse_username') || '';
-        let likedPosts = JSON.parse(localStorage.getItem('pulse_likes') || '{}');
+        // likes stores { postId: { liked: bool, count: number } }
+        let likesData = JSON.parse(localStorage.getItem('pulse_likes_v2') || '{}');
 
         // ======================== DOM ========================
         const feedList        = document.getElementById('feedList');
@@ -1430,6 +1432,15 @@
             return JSON.parse(localStorage.getItem('pulse_replies_' + postId) || '[]');
         }
 
+        function getLikeData(postId) {
+            if (!likesData[postId]) likesData[postId] = { liked: false, count: Math.floor(Math.random() * 12) };
+            return likesData[postId];
+        }
+
+        function saveLikes() {
+            localStorage.setItem('pulse_likes_v2', JSON.stringify(likesData));
+        }
+
         function showToast(msg, type = 'success') {
             toastMessage.textContent = msg;
             toast.className = `toast ${type}`;
@@ -1450,11 +1461,29 @@
                     const p = allPosts.find(x => x.id === activePostId);
                     if (p) openThread(p);
                 }
+                // If URL has a post hash, scroll to it and highlight
+                scrollToHashPost();
             } catch (e) {
                 console.error('Load error:', e);
                 feedList.innerHTML = '<div class="empty-feed"><div class="empty-feed-icon"><i class="fas fa-exclamation-triangle"></i></div><h3>Connection Error</h3><p>Unable to load posts.</p></div>';
             }
         }
+
+        function scrollToHashPost() {
+            const hash = window.location.hash;
+            if (!hash || !hash.startsWith('#post-')) return;
+            const postId = hash.replace('#post-', '');
+            const el = document.getElementById('post-' + postId);
+            if (el) {
+                setTimeout(() => {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.style.boxShadow = '0 0 0 3px var(--accent), var(--shadow-md)';
+                    setTimeout(() => el.style.boxShadow = '', 2500);
+                }, 300);
+            }
+        }
+
+        window.addEventListener('hashchange', scrollToHashPost);
 
         // ======================== RENDER FEED ========================
         function renderFeed(posts) {
@@ -1473,7 +1502,7 @@
                 const init = user.charAt(0).toUpperCase();
                 const col = avatarColor(user);
                 const replies = getReplies(post.id);
-                const liked = !!likedPosts[post.id];
+                const ld = getLikeData(post.id);
                 const isOnline = idx < 3;
 
                 let imgHtml = '';
@@ -1487,8 +1516,11 @@
                     replyBadge = `<div class="post-reply-badge" onclick="openThread(allPosts.find(p=>p.id===${post.id}))"><i class="fas fa-comments"></i> ${replies.length} repl${replies.length === 1 ? 'y' : 'ies'}</div>`;
                 }
 
+                const likeCountStr = ld.count > 0 ? ` (${ld.count})` : '';
+
                 const card = document.createElement('div');
                 card.className = 'post-card';
+                card.id = 'post-' + post.id;
                 card.style.animationDelay = `${idx * 0.06}s`;
                 card.setAttribute('data-id', post.id);
                 card.innerHTML = `
@@ -1509,15 +1541,15 @@
                         ${replyBadge}
                     </div>
                     <div class="post-actions">
-                        <button class="action-btn like ${liked ? 'liked' : ''}" data-post-id="${post.id}">
-                            <i class="${liked ? 'fas' : 'far'} fa-heart"></i>
-                            <span>${liked ? 'Liked' : 'Like'}</span>
+                        <button class="action-btn like ${ld.liked ? 'liked' : ''}" data-post-id="${post.id}">
+                            <i class="${ld.liked ? 'fas' : 'far'} fa-heart"></i>
+                            <span>Like${likeCountStr}</span>
                         </button>
                         <button class="action-btn reply ${activePostId === post.id ? 'active-reply' : ''}" data-post-id="${post.id}">
                             <i class="far fa-comment"></i>
                             <span>Reply${replies.length ? ' (' + replies.length + ')' : ''}</span>
                         </button>
-                        <button class="action-btn share">
+                        <button class="action-btn share" data-post-id="${post.id}">
                             <i class="fas fa-arrow-up-from-bracket"></i>
                             <span>Share</span>
                         </button>
@@ -1530,6 +1562,9 @@
                 });
                 card.querySelector('.action-btn.reply').addEventListener('click', () => {
                     openThread(post);
+                });
+                card.querySelector('.action-btn.share').addEventListener('click', () => {
+                    sharePost(post);
                 });
 
                 inner.appendChild(card);
@@ -1548,18 +1583,57 @@
 
         // ======================== LIKE ========================
         function toggleLike(postId, btn) {
-            if (likedPosts[postId]) {
-                delete likedPosts[postId];
+            const ld = getLikeData(postId);
+            if (ld.liked) {
+                ld.liked = false;
+                ld.count = Math.max(0, ld.count - 1);
                 btn.classList.remove('liked');
                 btn.querySelector('i').className = 'far fa-heart';
-                btn.querySelector('span').textContent = 'Like';
             } else {
-                likedPosts[postId] = true;
+                ld.liked = true;
+                ld.count += 1;
                 btn.classList.add('liked');
                 btn.querySelector('i').className = 'fas fa-heart';
-                btn.querySelector('span').textContent = 'Liked';
+
+                // Quick heart pop animation
+                btn.style.transform = 'scale(1.15)';
+                setTimeout(() => btn.style.transform = '', 200);
             }
-            localStorage.setItem('pulse_likes', JSON.stringify(likedPosts));
+            btn.querySelector('span').textContent = 'Like' + (ld.count > 0 ? ' (' + ld.count + ')' : '');
+            saveLikes();
+        }
+
+        // ======================== SHARE ========================
+        function sharePost(post) {
+            const url = window.location.origin + '/#post-' + post.id;
+            const user = post.username || 'Anonymous';
+            const text = post.content.length > 80 ? post.content.slice(0, 80) + '...' : post.content;
+
+            // Try native Web Share API (mobile browsers, some desktops)
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Post by ' + user + ' on Pulse',
+                    text: text,
+                    url: url
+                }).catch(() => {});
+                return;
+            }
+
+            // Fallback: copy link to clipboard
+            navigator.clipboard.writeText(url).then(() => {
+                showToast('Link copied to clipboard!', 'success');
+            }).catch(() => {
+                // Final fallback for older browsers
+                const tmp = document.createElement('textarea');
+                tmp.value = url;
+                tmp.style.position = 'fixed';
+                tmp.style.opacity = '0';
+                document.body.appendChild(tmp);
+                tmp.select();
+                document.execCommand('copy');
+                document.body.removeChild(tmp);
+                showToast('Link copied to clipboard!', 'success');
+            });
         }
 
         // ======================== OPEN THREAD ========================
