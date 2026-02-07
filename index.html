@@ -107,13 +107,18 @@
 
         /* ===================== LEFT: FEED PANEL ===================== */
         .feed-panel {
-            width: 520px;
-            min-width: 420px;
+            flex: 1;
+            min-width: 0;
             background: var(--bg-sidebar);
-            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            transition: background 0.3s;
+            transition: background 0.3s, flex 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        /* When thread is open, feed shrinks to ~70% */
+        .app-container.thread-open .feed-panel {
+            flex: 7;
+            border-right: 1px solid var(--border-color);
         }
 
         /* Feed Header */
@@ -217,7 +222,18 @@
         .feed-list {
             flex: 1;
             overflow-y: auto;
+            padding: 16px 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 16px;
+            align-content: start;
+        }
+
+        /* When thread is open, go single column */
+        .app-container.thread-open .feed-list {
+            grid-template-columns: 1fr;
             padding: 12px 16px;
+            gap: 12px;
         }
 
         /* ---------- POST CARD ---------- */
@@ -226,10 +242,10 @@
             border: 1px solid var(--border-color);
             border-radius: 18px;
             padding: 20px;
-            margin-bottom: 14px;
             transition: border-color 0.2s, box-shadow 0.2s;
             animation: cardSlide 0.4s ease backwards;
             cursor: default;
+            height: fit-content;
         }
 
         .post-card:hover {
@@ -431,49 +447,29 @@
 
         /* ===================== RIGHT: REPLY PANEL ===================== */
         .reply-panel {
-            flex: 1;
+            flex: 0;
+            width: 0;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             background: var(--bg-chat);
-            transition: background 0.3s;
+            transition: background 0.3s, flex 0.4s cubic-bezier(0.4,0,0.2,1), width 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
             min-width: 0;
+            opacity: 0;
         }
 
-        /* Welcome / empty state for right panel */
+        /* When thread is open, reply panel takes ~30% */
+        .app-container.thread-open .reply-panel {
+            flex: 3;
+            width: auto;
+            overflow: visible;
+            opacity: 1;
+        }
+
+        /* Welcome / empty state for right panel (not used when panel is hidden) */
         .panel-welcome {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            color: var(--text-muted);
-            padding: 40px;
-        }
-
-        .panel-welcome-icon {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: var(--bg-elevated);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            color: var(--accent);
-        }
-
-        .panel-welcome h2 {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .panel-welcome p {
-            font-size: 15px;
-            max-width: 340px;
-            text-align: center;
-            line-height: 1.6;
+            display: none;
         }
 
         /* Reply panel header */
@@ -1090,14 +1086,22 @@
 
         /* ===================== RESPONSIVE ===================== */
         @media (max-width: 900px) {
-            .feed-panel { width: 100%; min-width: 100%; }
-            .reply-panel {
-                display: none;
-                position: fixed;
-                inset: 0;
-                z-index: 200;
+            .feed-list {
+                grid-template-columns: 1fr;
+                padding: 12px 12px;
             }
-            .reply-panel.mobile-open { display: flex; }
+
+            .app-container.thread-open .feed-panel {
+                display: none;
+            }
+
+            .app-container.thread-open .reply-panel {
+                flex: 1;
+                width: 100%;
+                opacity: 1;
+                overflow: visible;
+            }
+
             .back-btn { display: flex; }
             .message-row { max-width: 85%; }
         }
@@ -1479,6 +1483,9 @@
             const col = avatarColor(user);
             const replies = getReplies(post.id);
 
+            // Slide in the reply panel
+            document.querySelector('.app-container').classList.add('thread-open');
+
             // Header
             replyHeader.style.display = 'flex';
             replyHeaderAvatar.style.background = col;
@@ -1552,19 +1559,19 @@
                 b.classList.toggle('active-reply', Number(b.dataset.postId) === post.id);
             });
 
-            // Mobile: show panel
-            replyPanel.classList.add('mobile-open');
             replyInput.focus();
         }
 
         // ======================== CLOSE THREAD ========================
         function closeThread() {
             activePostId = null;
+
+            // Slide out the reply panel
+            document.querySelector('.app-container').classList.remove('thread-open');
+
             replyHeader.style.display = 'none';
             threadArea.style.display = 'none';
             replyComposer.style.display = 'none';
-            panelWelcome.style.display = 'flex';
-            replyPanel.classList.remove('mobile-open');
 
             document.querySelectorAll('.action-btn.reply').forEach(b => b.classList.remove('active-reply'));
         }
