@@ -308,25 +308,6 @@
             color: var(--text-muted);
         }
 
-        .post-menu-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            transition: all 0.15s;
-        }
-
-        .post-menu-btn:hover {
-            background: var(--bg-hover);
-            color: var(--text-primary);
-        }
 
         /* Post body */
         .post-body {
@@ -1533,7 +1514,6 @@
                             <div class="post-username">${esc(user)}</div>
                             <div class="post-timestamp">${timeAgo(post.created_at)}</div>
                         </div>
-                        <button class="post-menu-btn" title="More"><i class="fas fa-ellipsis"></i></button>
                     </div>
                     <div class="post-body">
                         <p class="post-text">${esc(post.content)}</p>
