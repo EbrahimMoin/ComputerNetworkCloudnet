@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -7,6 +7,7 @@
     <meta name="description" content="Pulse - Share your moments with the world.">
     <meta name="theme-color" content="#0a0a0b">
     <title>Pulse | Share Your Moments</title>
+<<<<<<< HEAD
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,10 +18,1180 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/static/css/style.css">
+=======
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ===================== DARK THEME ===================== */
+        :root,
+        [data-theme="dark"] {
+            --bg-app: #0d0d0d;
+            --bg-sidebar: #111111;
+            --bg-card: #181818;
+            --bg-chat: #0d0d0d;
+            --bg-input: #1e1e1e;
+            --bg-hover: #1c1c1c;
+            --bg-active: #252525;
+            --bg-bubble-sent: #e85d04;
+            --bg-bubble-recv: #1e1e1e;
+            --bg-elevated: #222;
+            --bg-composer: #111;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666;
+            --text-bubble-sent: #fff;
+            --text-bubble-recv: #f5f5f5;
+            --text-time-sent: rgba(255,255,255,0.7);
+            --text-time-recv: #888;
+            --border-color: rgba(255,255,255,0.06);
+            --border-medium: rgba(255,255,255,0.1);
+            --accent: #e85d04;
+            --accent-light: #f48c06;
+            --accent-gradient: linear-gradient(135deg, #e85d04 0%, #f48c06 50%, #faa307 100%);
+            --like-color: #ef4444;
+            --share-color: #22c55e;
+            --online-color: #22c55e;
+            --shadow-sm: 0 1px 4px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+            --scrollbar-thumb: #2a2a2a;
+            --modal-overlay: rgba(0,0,0,0.85);
+            --reply-badge-bg: rgba(232,93,4,0.12);
+            --reply-badge-text: #f48c06;
+        }
+
+        /* ===================== LIGHT THEME ===================== */
+        [data-theme="light"] {
+            --bg-app: #f0f2f5;
+            --bg-sidebar: #ffffff;
+            --bg-card: #ffffff;
+            --bg-chat: #f0f2f5;
+            --bg-input: #f5f5f5;
+            --bg-hover: #f5f5f5;
+            --bg-active: #ede7e3;
+            --bg-bubble-sent: #e85d04;
+            --bg-bubble-recv: #ffffff;
+            --bg-elevated: #fff;
+            --bg-composer: #fff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #65676b;
+            --text-muted: #8e8e8e;
+            --text-bubble-sent: #fff;
+            --text-bubble-recv: #1a1a1a;
+            --text-time-sent: rgba(255,255,255,0.75);
+            --text-time-recv: #8e8e8e;
+            --border-color: #e4e6ea;
+            --border-medium: #dddfe2;
+            --accent: #e85d04;
+            --accent-light: #f48c06;
+            --accent-gradient: linear-gradient(135deg, #e85d04 0%, #f48c06 50%, #faa307 100%);
+            --like-color: #ef4444;
+            --share-color: #22c55e;
+            --online-color: #22c55e;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+            --scrollbar-thumb: #c4c4c4;
+            --modal-overlay: rgba(0,0,0,0.45);
+            --reply-badge-bg: rgba(232,93,4,0.08);
+            --reply-badge-text: #e85d04;
+        }
+
+        /* ===================== BASE ===================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg-app);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+            height: 100vh;
+            overflow: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ===================== APP SHELL ===================== */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        /* ===================== LEFT: FEED PANEL ===================== */
+        .feed-panel {
+            flex: 1;
+            min-width: 0;
+            background: var(--bg-sidebar);
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s, flex 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        /* When thread is open, feed shrinks to ~70% */
+        .app-container.thread-open .feed-panel {
+            flex: 7;
+            border-right: 1px solid var(--border-color);
+        }
+
+        /* Feed Header */
+        .feed-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .feed-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--accent-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(232,93,4,0.2);
+        }
+
+        .brand-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .feed-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.15s;
+        }
+
+        .icon-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        /* Search */
+        .feed-search {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .search-wrap {
+            position: relative;
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px 10px 40px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(232,93,4,0.08); }
+
+        /* Feed Scrollable Area */
+        .feed-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+        }
+
+        .feed-list-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* When thread is open, tighten up */
+        .app-container.thread-open .feed-list {
+            padding: 14px 16px;
+        }
+
+        .app-container.thread-open .feed-list-inner {
+            max-width: 100%;
+            gap: 12px;
+        }
+
+        /* ---------- POST CARD ---------- */
+        .post-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 20px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            animation: cardSlide 0.4s ease backwards;
+            cursor: default;
+        }
+
+        .post-card:hover {
+            border-color: var(--border-medium);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .post-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .post-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .post-avatar .online-dot {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--online-color);
+            border: 2.5px solid var(--bg-card);
+            border-radius: 50%;
+        }
+
+        .post-user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .post-username {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        .post-timestamp {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+
+        /* Post body */
+        .post-body {
+            margin-bottom: 14px;
+        }
+
+        .post-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .post-image-wrap {
+            margin-top: 14px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: var(--bg-hover);
+        }
+
+        .post-image-wrap img {
+            width: 100%;
+            height: auto;
+            max-height: 520px;
+            object-fit: contain;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.25s;
+        }
+
+        .post-image-wrap img:hover { transform: scale(1.01); }
+
+        /* Reply count badge */
+        .post-reply-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: var(--reply-badge-bg);
+            color: var(--reply-badge-text);
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .post-reply-badge:hover {
+            background: rgba(232,93,4,0.2);
+        }
+
+        .post-reply-badge i { font-size: 12px; }
+
+        /* Action bar */
+        .post-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 8px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 14px;
+            transform: scale(1);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .action-btn:hover { background: var(--bg-hover); }
+
+        .action-btn.like:hover { color: var(--like-color); background: rgba(239,68,68,0.08); }
+        .action-btn.like.liked { color: var(--like-color); background: rgba(239,68,68,0.08); font-weight: 600; }
+
+        .action-btn.reply:hover,
+        .action-btn.reply.active-reply { color: var(--accent); background: rgba(232,93,4,0.08); }
+
+        .action-btn.share:hover { color: var(--share-color); background: rgba(34,197,94,0.08); }
+
+        .action-btn i { font-size: 16px; }
+
+        /* New Post Area */
+        .new-post-area {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .new-post-btn {
+            width: 100%;
+            padding: 13px 20px;
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 16px rgba(232,93,4,0.3);
+        }
+
+        .new-post-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(232,93,4,0.4);
+        }
+
+        /* ===================== RIGHT: REPLY PANEL ===================== */
+        .reply-panel {
+            flex: 0;
+            width: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-chat);
+            transition: background 0.3s, flex 0.4s cubic-bezier(0.4,0,0.2,1), width 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+            min-width: 0;
+            opacity: 0;
+        }
+
+        /* When thread is open, reply panel takes ~30% */
+        .app-container.thread-open .reply-panel {
+            flex: 3;
+            width: auto;
+            overflow: visible;
+            opacity: 1;
+        }
+
+        /* Welcome / empty state for right panel (not used when panel is hidden) */
+        .panel-welcome {
+            flex: 1;
+            display: none;
+        }
+
+        /* Reply panel header */
+        .reply-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-elevated);
+            flex-shrink: 0;
+        }
+
+        .reply-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .back-btn {
+            display: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.15s;
+        }
+
+        .back-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+        .reply-header-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .reply-header-info h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .reply-header-info span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .reply-header-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-hover);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.15s;
+        }
+
+        .reply-header-close:hover { background: var(--bg-active); color: var(--text-primary); }
+
+        /* Messages / thread area */
+        .thread-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Original post card inside thread */
+        .thread-original {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 8px;
+        }
+
+        .thread-original .post-card-header { margin-bottom: 10px; }
+        .thread-original .post-text { font-size: 15px; }
+        .thread-original .post-image-wrap { margin-top: 12px; }
+        .thread-original .post-image-wrap img { max-height: 400px; }
+
+        /* Divider for replies */
+        .replies-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .replies-divider::before,
+        .replies-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        /* Message Bubbles */
+        .message-row {
+            display: flex;
+            gap: 10px;
+            max-width: 75%;
+            animation: msgSlide 0.3s ease;
+        }
+
+        .message-row.sent {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+
+        .message-row.received { margin-right: auto; }
+
+        .msg-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            align-self: flex-end;
+        }
+
+        .msg-bubble {
+            padding: 11px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+
+        .message-row.sent .msg-bubble {
+            background: var(--bg-bubble-sent);
+            color: var(--text-bubble-sent);
+            border-bottom-right-radius: 6px;
+        }
+
+        .message-row.received .msg-bubble {
+            background: var(--bg-bubble-recv);
+            color: var(--text-bubble-recv);
+            border-bottom-left-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .msg-time {
+            font-size: 11px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .message-row.sent .msg-time { color: var(--text-time-sent); }
+        .message-row.received .msg-time { color: var(--text-time-recv); }
+
+        .msg-author {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 3px;
+            display: block;
+        }
+
+        .message-row.received .msg-author { color: var(--accent); }
+        .message-row.sent .msg-author { color: rgba(255,255,255,0.8); }
+
+        /* Typing dots */
+        .typing-indicator {
+            display: none;
+            padding: 0 8px 8px;
+        }
+
+        .typing-indicator.active { display: flex; }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-bubble-recv);
+            border: 1px solid var(--border-color);
+            padding: 11px 16px;
+            border-radius: 18px;
+            border-bottom-left-radius: 6px;
+        }
+
+        .typing-dots span {
+            width: 7px;
+            height: 7px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: bounce 1.4s ease-in-out infinite;
+        }
+
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        /* Reply composer (bottom of right panel) */
+        .reply-composer {
+            padding: 14px 24px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-composer);
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .reply-attach-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-hover);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+
+        .reply-attach-btn:hover { background: rgba(232,93,4,0.1); color: var(--accent); }
+
+        .reply-input-wrap {
+            flex: 1;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 22px;
+            padding: 4px 14px;
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            transition: border-color 0.2s;
+        }
+
+        .reply-input-wrap:focus-within { border-color: var(--accent); }
+
+        .reply-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.4;
+            padding: 9px 0;
+            resize: none;
+            outline: none;
+            max-height: 100px;
+            min-height: 20px;
+        }
+
+        .reply-input::placeholder { color: var(--text-muted); }
+
+        .reply-emoji-btn {
+            padding: 9px 2px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .reply-emoji-btn:hover { color: var(--accent); }
+
+        .reply-send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--accent-gradient);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            box-shadow: 0 2px 10px rgba(232,93,4,0.25);
+        }
+
+        .reply-send-btn:hover { transform: scale(1.05); box-shadow: 0 4px 18px rgba(232,93,4,0.35); }
+
+        /* ===================== LOADING / EMPTY ===================== */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            gap: 14px;
+        }
+
+        .loading-spinner {
+            width: 34px;
+            height: 34px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .loading-text { color: var(--text-muted); font-size: 14px; }
+
+        .empty-feed {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-feed-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--bg-hover);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .empty-feed h3 { font-size: 18px; color: var(--text-primary); margin-bottom: 4px; }
+        .empty-feed p { font-size: 14px; color: var(--text-muted); }
+
+        /* ===================== NEW POST MODAL ===================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--modal-overlay);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active { display: flex; animation: fadeIn 0.2s; }
+
+        .modal-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 520px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            animation: modalSlide 0.3s ease;
+        }
+
+        .modal-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h3 { font-size: 18px; font-weight: 700; }
+
+        .modal-close-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-hover);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+        }
+
+        .modal-close-btn:hover { background: var(--bg-active); color: var(--text-primary); }
+
+        .modal-body { padding: 20px 24px; }
+
+        .modal-field { margin-bottom: 16px; }
+
+        .modal-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .modal-field input,
+        .modal-field textarea {
+            width: 100%;
+            padding: 11px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .modal-field input:focus,
+        .modal-field textarea:focus { border-color: var(--accent); }
+
+        .modal-field textarea { resize: none; min-height: 90px; line-height: 1.5; }
+        .modal-field input::placeholder,
+        .modal-field textarea::placeholder { color: var(--text-muted); }
+
+        .modal-image-upload {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--bg-input);
+            border: 1px dashed var(--border-medium);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-image-upload:hover { border-color: var(--accent); }
+        .modal-image-upload i { font-size: 18px; color: var(--accent); }
+        .modal-image-upload span { font-size: 13px; color: var(--text-secondary); }
+
+        .modal-preview {
+            margin-top: 10px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: none;
+            position: relative;
+        }
+
+        .modal-preview.active { display: block; }
+        .modal-preview img { width: 100%; max-height: 180px; object-fit: cover; display: block; }
+
+        .modal-preview-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.7);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .modal-footer {
+            padding: 14px 24px 18px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-cancel-btn {
+            padding: 10px 22px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-cancel-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+        .modal-submit-btn {
+            padding: 10px 26px;
+            border-radius: 12px;
+            border: none;
+            background: var(--accent-gradient);
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(232,93,4,0.25);
+            transition: all 0.2s;
+        }
+
+        .modal-submit-btn:hover { transform: translateY(-1px); }
+        .modal-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .modal-submit-btn .spinner { display: none; animation: spin 1s linear infinite; }
+        .modal-submit-btn.loading .spinner { display: inline-block; }
+        .modal-submit-btn.loading .btn-label { display: none; }
+
+        /* ===================== IMAGE LIGHTBOX ===================== */
+        .image-modal {
+            position: fixed;
+            inset: 0;
+            background: var(--modal-overlay);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: zoom-out;
+        }
+
+        .image-modal.active { display: flex; animation: fadeIn 0.2s; }
+        .image-modal img { max-width: 90%; max-height: 90%; border-radius: 12px; cursor: default; }
+
+        .image-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-modal-close:hover { background: rgba(255,255,255,0.2); }
+
+        /* ===================== TOAST ===================== */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
+            padding: 12px 22px;
+            border-radius: 14px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .toast.success { border-color: rgba(34,197,94,0.3); }
+        .toast.success i { color: #22c55e; }
+        .toast.error { border-color: rgba(239,68,68,0.3); }
+        .toast.error i { color: #ef4444; }
+
+        /* ===================== SCROLLBAR ===================== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* ===================== ANIMATIONS ===================== */
+        @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes spin { to { transform: rotate(360deg) } }
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(16px) scale(0.97) }
+            to { opacity: 1; transform: translateY(0) scale(1) }
+        }
+        @keyframes cardSlide {
+            from { opacity: 0; transform: translateY(14px) }
+            to { opacity: 1; transform: translateY(0) }
+        }
+        @keyframes msgSlide {
+            from { opacity: 0; transform: translateY(8px) }
+            to { opacity: 1; transform: translateY(0) }
+        }
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0) }
+            30% { transform: translateY(-5px) }
+        }
+
+        /* ===================== RESPONSIVE ===================== */
+
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .app-container.thread-open .feed-panel { flex: 6; }
+            .app-container.thread-open .reply-panel { flex: 4; }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .feed-header {
+                padding: 14px 16px;
+            }
+
+            .brand-name { font-size: 20px; }
+
+            .feed-search {
+                padding: 10px 12px;
+            }
+
+            .feed-list {
+                padding: 12px 12px;
+            }
+
+            .feed-list-inner {
+                gap: 12px;
+            }
+
+            .post-card {
+                padding: 16px;
+                border-radius: 14px;
+            }
+
+            .post-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .post-username { font-size: 14px; }
+            .post-text { font-size: 14px; }
+            .post-image-wrap img { max-height: 360px; }
+
+            .action-btn {
+                padding: 8px 4px;
+                font-size: 13px;
+                gap: 5px;
+            }
+
+            .action-btn i { font-size: 14px; }
+
+            .new-post-area {
+                padding: 12px;
+            }
+
+            .new-post-btn {
+                padding: 11px 16px;
+                font-size: 14px;
+                border-radius: 12px;
+            }
+
+            /* When thread is open on mobile, take over the whole screen */
+            .app-container.thread-open .feed-panel {
+                display: none;
+            }
+
+            .app-container.thread-open .reply-panel {
+                flex: 1;
+                width: 100%;
+                opacity: 1;
+                overflow: visible;
+            }
+
+            .back-btn { display: flex; }
+
+            .reply-header { padding: 12px 16px; }
+            .thread-area { padding: 16px; }
+            .reply-composer { padding: 10px 12px; }
+            .message-row { max-width: 88%; }
+
+            .thread-original {
+                padding: 14px;
+            }
+        }
+
+        /* Small phones */
+        @media (max-width: 400px) {
+            .feed-header { padding: 12px; }
+            .feed-list { padding: 8px 8px; }
+            .feed-list-inner { gap: 10px; }
+            .post-card { padding: 14px 12px; border-radius: 12px; }
+            .post-card-header { gap: 10px; }
+            .post-avatar { width: 36px; height: 36px; font-size: 14px; }
+            .action-btn span { display: none; }
+            .action-btn { gap: 0; }
+        }
+    </style>
+>>>>>>> 941ddf1634fdb4587635d1c789f280523733c8a4
 </head>
 
 <body>
+    <div class="app-container">
 
+<<<<<<< HEAD
     <!-- Animated Background -->
     <div class="bg-mesh"></div>
     <div class="bg-grid"></div>
@@ -42,11 +1213,44 @@
                 </button>
                 <button class="nav-btn" title="Refresh feed" onclick="loadData()">
                     <i class="fas fa-arrows-rotate"></i>
+=======
+        <!-- ========== LEFT: FEED ========== -->
+        <aside class="feed-panel" id="feedPanel">
+            <div class="feed-header">
+                <div class="feed-brand">
+                    <div class="brand-icon"><i class="fas fa-bolt"></i></div>
+                    <span class="brand-name">Pulse</span>
+                </div>
+                <div class="feed-header-actions">
+                    <button class="icon-btn" id="themeToggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
+                    <button class="icon-btn" title="Refresh" onclick="loadData()"><i class="fas fa-arrows-rotate"></i></button>
+                </div>
+            </div>
+
+            <div class="feed-search">
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search posts...">
+                </div>
+            </div>
+
+            <div class="feed-list" id="feedList">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <span class="loading-text">Loading feed...</span>
+                </div>
+            </div>
+
+            <div class="new-post-area">
+                <button class="new-post-btn" id="newPostBtn">
+                    <i class="fas fa-plus"></i>
+                    <span>New Post</span>
+>>>>>>> 941ddf1634fdb4587635d1c789f280523733c8a4
                 </button>
             </div>
-        </div>
-    </nav>
+        </aside>
 
+<<<<<<< HEAD
     <!-- ======== MAIN CONTENT ======== -->
     <main class="main-container">
 
@@ -113,15 +1317,93 @@
                                 <i class="fas fa-face-smile"></i>
                             </button>
                             <div class="emoji-picker-popup" id="emojiPicker"></div>
+=======
+        <!-- ========== RIGHT: REPLY THREAD ========== -->
+        <main class="reply-panel" id="replyPanel">
+            <!-- Welcome (no thread selected) -->
+            <div class="panel-welcome" id="panelWelcome">
+                <div class="panel-welcome-icon"><i class="fas fa-comments"></i></div>
+                <h2>Conversations</h2>
+                <p>Click <strong>Reply</strong> on a post to start or view a conversation thread here.</p>
+            </div>
+
+            <!-- Thread header (hidden) -->
+            <div class="reply-header" id="replyHeader" style="display:none;">
+                <div class="reply-header-left">
+                    <button class="back-btn" id="backBtn" title="Back"><i class="fas fa-arrow-left"></i></button>
+                    <div class="reply-header-avatar" id="replyHeaderAvatar"></div>
+                    <div class="reply-header-info">
+                        <h3 id="replyHeaderName">...</h3>
+                        <span id="replyHeaderStatus"></span>
+                    </div>
+                </div>
+                <button class="reply-header-close" id="replyCloseBtn" title="Close thread"><i class="fas fa-xmark"></i></button>
+            </div>
+
+            <!-- Thread messages -->
+            <div class="thread-area" id="threadArea" style="display:none;"></div>
+
+            <!-- Typing indicator -->
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots"><span></span><span></span><span></span></div>
+            </div>
+
+            <!-- Reply composer (hidden) -->
+            <div class="reply-composer" id="replyComposer" style="display:none;">
+                <label class="reply-attach-btn" title="Attach image">
+                    <i class="fas fa-plus"></i>
+                    <input type="file" id="replyImageInput" accept="image/*" style="display:none;">
+                </label>
+                <div class="reply-input-wrap">
+                    <textarea class="reply-input" id="replyInput" placeholder="Type something..." rows="1"></textarea>
+                    <button class="reply-emoji-btn" id="replyEmojiBtn" title="Emoji" type="button"><i class="fas fa-face-smile"></i></button>
+                </div>
+                <button class="reply-send-btn" id="replySendBtn" title="Send"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </main>
+    </div>
+
+    <!-- ========== NEW POST MODAL ========== -->
+    <div class="modal-overlay" id="newPostModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Create Post</h3>
+                <button class="modal-close-btn" id="modalCloseBtn"><i class="fas fa-xmark"></i></button>
+            </div>
+            <form id="postForm">
+                <div class="modal-body">
+                    <div class="modal-field">
+                        <label>Your Name</label>
+                        <input type="text" id="modalUsername" name="username" placeholder="What's your name?" maxlength="30" autocomplete="off">
+                    </div>
+                    <div class="modal-field">
+                        <label>Message</label>
+                        <textarea id="modalContent" name="content" placeholder="What's on your mind?" maxlength="500" required></textarea>
+                    </div>
+                    <div class="modal-field">
+                        <label>Image (optional)</label>
+                        <label class="modal-image-upload" id="modalImageUpload">
+                            <i class="fas fa-image"></i>
+                            <span>Click to add an image</span>
+                            <input type="file" name="image" id="modalImageInput" accept="image/*" style="display:none;">
+                        </label>
+                        <div class="modal-preview" id="modalPreview">
+                            <img src="" alt="Preview" id="modalPreviewImg">
+                            <button type="button" class="modal-preview-remove" id="modalPreviewRemove"><i class="fas fa-xmark"></i></button>
+>>>>>>> 941ddf1634fdb4587635d1c789f280523733c8a4
                         </div>
                     </div>
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <span class="btn-text">Post</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-cancel-btn" id="modalCancelBtn">Cancel</button>
+                    <button type="submit" class="modal-submit-btn" id="modalSubmitBtn">
+                        <span class="btn-label">Post</span>
                         <i class="fas fa-circle-notch spinner"></i>
                     </button>
                 </div>
             </form>
         </div>
+<<<<<<< HEAD
 
         <!-- ======== FEED ======== -->
         <section class="feed-section">
@@ -151,13 +1433,608 @@
     </div>
 
     <!-- ======== TOAST ======== -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMessage">Success!</span>
+=======
     </div>
 
+    <!-- ========== IMAGE LIGHTBOX ========== -->
+    <div class="image-modal" id="imageLightbox">
+        <button class="image-modal-close" id="lightboxClose"><i class="fas fa-xmark"></i></button>
+        <img src="" alt="" id="lightboxImg">
+    </div>
+
+    <!-- ========== TOAST ========== -->
+>>>>>>> 941ddf1634fdb4587635d1c789f280523733c8a4
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage"></span>
+    </div>
+
+<<<<<<< HEAD
     <!-- Application Script -->
     <script src="/static/js/app.js"></script>
+=======
+    <script>
+        // ======================== STATE ========================
+        let allPosts = [];
+        let activePostId = null;
+        let currentUser = localStorage.getItem('pulse_username') || '';
+        // likes stores { postId: { liked: bool, count: number } }
+        let likesData = JSON.parse(localStorage.getItem('pulse_likes_v2') || '{}');
+
+        // ======================== DOM ========================
+        const feedList        = document.getElementById('feedList');
+        const searchInput     = document.getElementById('searchInput');
+        const replyPanel      = document.getElementById('replyPanel');
+        const panelWelcome    = document.getElementById('panelWelcome');
+        const replyHeader     = document.getElementById('replyHeader');
+        const replyHeaderAvatar = document.getElementById('replyHeaderAvatar');
+        const replyHeaderName = document.getElementById('replyHeaderName');
+        const replyHeaderStatus = document.getElementById('replyHeaderStatus');
+        const replyCloseBtn   = document.getElementById('replyCloseBtn');
+        const threadArea      = document.getElementById('threadArea');
+        const replyComposer   = document.getElementById('replyComposer');
+        const replyInput      = document.getElementById('replyInput');
+        const replySendBtn    = document.getElementById('replySendBtn');
+        const replyEmojiBtn   = document.getElementById('replyEmojiBtn');
+        const backBtn         = document.getElementById('backBtn');
+        const newPostBtn      = document.getElementById('newPostBtn');
+        const newPostModal    = document.getElementById('newPostModal');
+        const postForm        = document.getElementById('postForm');
+        const modalCloseBtn   = document.getElementById('modalCloseBtn');
+        const modalCancelBtn  = document.getElementById('modalCancelBtn');
+        const modalSubmitBtn  = document.getElementById('modalSubmitBtn');
+        const modalUsername   = document.getElementById('modalUsername');
+        const modalContent    = document.getElementById('modalContent');
+        const modalImageInput = document.getElementById('modalImageInput');
+        const modalPreview    = document.getElementById('modalPreview');
+        const modalPreviewImg = document.getElementById('modalPreviewImg');
+        const modalPreviewRemove = document.getElementById('modalPreviewRemove');
+        const themeToggle     = document.getElementById('themeToggle');
+        const imageLightbox   = document.getElementById('imageLightbox');
+        const lightboxImg     = document.getElementById('lightboxImg');
+        const lightboxClose   = document.getElementById('lightboxClose');
+        const toast           = document.getElementById('toast');
+        const toastMessage    = document.getElementById('toastMessage');
+
+        // ======================== THEME ========================
+        const savedTheme = localStorage.getItem('pulse_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const cur = document.documentElement.getAttribute('data-theme');
+            const nxt = cur === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', nxt);
+            localStorage.setItem('pulse_theme', nxt);
+            updateThemeIcon(nxt);
+        });
+
+        function updateThemeIcon(t) {
+            themeToggle.querySelector('i').className = t === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // ======================== HELPERS ========================
+        function esc(text) {
+            const d = document.createElement('div');
+            d.textContent = text;
+            return d.innerHTML;
+        }
+
+        function timeAgo(ds) {
+            if (!ds) return '';
+            if (!ds.endsWith('Z') && !ds.includes('+')) ds += 'Z';
+            const s = Math.floor((Date.now() - new Date(ds)) / 1000);
+            if (s < 10) return 'Just now';
+            if (s < 60) return s + 's ago';
+            if (s < 3600) return Math.floor(s / 60) + 'm ago';
+            if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+            if (s < 604800) return Math.floor(s / 86400) + 'd ago';
+            return new Date(ds).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        function fmtTime(ds) {
+            if (!ds) return '';
+            if (!ds.endsWith('Z') && !ds.includes('+')) ds += 'Z';
+            return new Date(ds).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+        }
+
+        const colors = [
+            'linear-gradient(135deg,#e85d04,#f48c06)',
+            'linear-gradient(135deg,#7c3aed,#a78bfa)',
+            'linear-gradient(135deg,#059669,#34d399)',
+            'linear-gradient(135deg,#dc2626,#f87171)',
+            'linear-gradient(135deg,#2563eb,#60a5fa)',
+            'linear-gradient(135deg,#db2777,#f472b6)',
+        ];
+
+        function avatarColor(name) {
+            let h = 0;
+            for (let i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h << 5) - h);
+            return colors[Math.abs(h) % colors.length];
+        }
+
+        function getReplies(postId) {
+            return JSON.parse(localStorage.getItem('pulse_replies_' + postId) || '[]');
+        }
+
+        function getLikeData(postId) {
+            if (!likesData[postId]) likesData[postId] = { liked: false, count: Math.floor(Math.random() * 12) };
+            return likesData[postId];
+        }
+
+        function saveLikes() {
+            localStorage.setItem('pulse_likes_v2', JSON.stringify(likesData));
+        }
+
+        function showToast(msg, type = 'success') {
+            toastMessage.textContent = msg;
+            toast.className = `toast ${type}`;
+            toast.querySelector('i').className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ======================== LOAD DATA ========================
+        async function loadData() {
+            feedList.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><span class="loading-text">Loading feed...</span></div>';
+            try {
+                const res = await fetch('/tweets');
+                allPosts = await res.json();
+                renderFeed(allPosts);
+                // Refresh thread if open
+                if (activePostId) {
+                    const p = allPosts.find(x => x.id === activePostId);
+                    if (p) openThread(p);
+                }
+                // If URL has a post hash, scroll to it and highlight
+                scrollToHashPost();
+            } catch (e) {
+                console.error('Load error:', e);
+                feedList.innerHTML = '<div class="empty-feed"><div class="empty-feed-icon"><i class="fas fa-exclamation-triangle"></i></div><h3>Connection Error</h3><p>Unable to load posts.</p></div>';
+            }
+        }
+
+        function scrollToHashPost() {
+            const hash = window.location.hash;
+            if (!hash || !hash.startsWith('#post-')) return;
+            const postId = hash.replace('#post-', '');
+            const el = document.getElementById('post-' + postId);
+            if (el) {
+                setTimeout(() => {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.style.boxShadow = '0 0 0 3px var(--accent), var(--shadow-md)';
+                    setTimeout(() => el.style.boxShadow = '', 2500);
+                }, 300);
+            }
+        }
+
+        window.addEventListener('hashchange', scrollToHashPost);
+
+        // ======================== RENDER FEED ========================
+        function renderFeed(posts) {
+            if (!posts.length) {
+                feedList.innerHTML = '<div class="empty-feed"><div class="empty-feed-icon"><i class="fas fa-feather"></i></div><h3>No posts yet</h3><p>Be the first to share something!</p></div>';
+                return;
+            }
+
+            feedList.innerHTML = '';
+            const inner = document.createElement('div');
+            inner.className = 'feed-list-inner';
+            feedList.appendChild(inner);
+
+            posts.forEach((post, idx) => {
+                const user = post.username || 'Anonymous';
+                const init = user.charAt(0).toUpperCase();
+                const col = avatarColor(user);
+                const replies = getReplies(post.id);
+                const ld = getLikeData(post.id);
+                const isOnline = idx < 3;
+
+                let imgHtml = '';
+                if (post.image_filename) {
+                    const src = post.image_filename.startsWith('http') ? post.image_filename : '/static/images/' + post.image_filename;
+                    imgHtml = `<div class="post-image-wrap"><img src="${src}" alt="Post image" onclick="openLightbox('${src}')"></div>`;
+                }
+
+                let replyBadge = '';
+                if (replies.length > 0) {
+                    replyBadge = `<div class="post-reply-badge" onclick="openThread(allPosts.find(p=>p.id===${post.id}))"><i class="fas fa-comments"></i> ${replies.length} repl${replies.length === 1 ? 'y' : 'ies'}</div>`;
+                }
+
+                const likeCountStr = ld.count > 0 ? ` (${ld.count})` : '';
+
+                const card = document.createElement('div');
+                card.className = 'post-card';
+                card.id = 'post-' + post.id;
+                card.style.animationDelay = `${idx * 0.06}s`;
+                card.setAttribute('data-id', post.id);
+                card.innerHTML = `
+                    <div class="post-card-header">
+                        <div class="post-avatar" style="background:${col}">
+                            ${init}
+                            ${isOnline ? '<div class="online-dot"></div>' : ''}
+                        </div>
+                        <div class="post-user-info">
+                            <div class="post-username">${esc(user)}</div>
+                            <div class="post-timestamp">${timeAgo(post.created_at)}</div>
+                        </div>
+                    </div>
+                    <div class="post-body">
+                        <p class="post-text">${esc(post.content)}</p>
+                        ${imgHtml}
+                        ${replyBadge}
+                    </div>
+                    <div class="post-actions">
+                        <button class="action-btn like ${ld.liked ? 'liked' : ''}" data-post-id="${post.id}">
+                            <i class="${ld.liked ? 'fas' : 'far'} fa-heart"></i>
+                            <span>Like${likeCountStr}</span>
+                        </button>
+                        <button class="action-btn reply ${activePostId === post.id ? 'active-reply' : ''}" data-post-id="${post.id}">
+                            <i class="far fa-comment"></i>
+                            <span>Reply${replies.length ? ' (' + replies.length + ')' : ''}</span>
+                        </button>
+                        <button class="action-btn share" data-post-id="${post.id}">
+                            <i class="fas fa-arrow-up-from-bracket"></i>
+                            <span>Share</span>
+                        </button>
+                    </div>
+                `;
+
+                // Wire up buttons
+                card.querySelector('.action-btn.like').addEventListener('click', function () {
+                    toggleLike(post.id, this);
+                });
+                card.querySelector('.action-btn.reply').addEventListener('click', () => {
+                    openThread(post);
+                });
+                card.querySelector('.action-btn.share').addEventListener('click', () => {
+                    sharePost(post);
+                });
+
+                inner.appendChild(card);
+            });
+        }
+
+        // ======================== SEARCH ========================
+        searchInput.addEventListener('input', () => {
+            const q = searchInput.value.toLowerCase().trim();
+            if (!q) { renderFeed(allPosts); return; }
+            renderFeed(allPosts.filter(p =>
+                (p.username || 'Anonymous').toLowerCase().includes(q) ||
+                (p.content || '').toLowerCase().includes(q)
+            ));
+        });
+
+        // ======================== LIKE ========================
+        function toggleLike(postId, btn) {
+            const ld = getLikeData(postId);
+            if (ld.liked) {
+                ld.liked = false;
+                ld.count = Math.max(0, ld.count - 1);
+                btn.classList.remove('liked');
+                btn.querySelector('i').className = 'far fa-heart';
+            } else {
+                ld.liked = true;
+                ld.count += 1;
+                btn.classList.add('liked');
+                btn.querySelector('i').className = 'fas fa-heart';
+
+                // Quick heart pop animation
+                btn.style.transform = 'scale(1.15)';
+                setTimeout(() => btn.style.transform = '', 200);
+            }
+            btn.querySelector('span').textContent = 'Like' + (ld.count > 0 ? ' (' + ld.count + ')' : '');
+            saveLikes();
+        }
+
+        // ======================== SHARE ========================
+        function copyToClipboard(text) {
+            // Works on both HTTP and HTTPS
+            const tmp = document.createElement('textarea');
+            tmp.value = text;
+            tmp.setAttribute('readonly', '');
+            tmp.style.position = 'fixed';
+            tmp.style.left = '-9999px';
+            tmp.style.opacity = '0';
+            document.body.appendChild(tmp);
+            tmp.select();
+            tmp.setSelectionRange(0, 99999); // mobile support
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+            document.body.removeChild(tmp);
+            return ok;
+        }
+
+        function sharePost(post) {
+            const url = window.location.origin + '/#post-' + post.id;
+            const user = post.username || 'Anonymous';
+            const text = post.content.length > 80 ? post.content.slice(0, 80) + '...' : post.content;
+
+            // Try native Web Share API first (HTTPS + supported browsers)
+            if (navigator.share && window.isSecureContext) {
+                navigator.share({
+                    title: 'Post by ' + user + ' on Pulse',
+                    text: text,
+                    url: url
+                }).catch(() => {});
+                return;
+            }
+
+            // Try modern clipboard API (requires HTTPS)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(() => {
+                    showToast('Link copied to clipboard!', 'success');
+                }).catch(() => {
+                    if (copyToClipboard(url)) {
+                        showToast('Link copied to clipboard!', 'success');
+                    } else {
+                        prompt('Copy this link to share:', url);
+                    }
+                });
+                return;
+            }
+
+            // Fallback for HTTP: use execCommand
+            if (copyToClipboard(url)) {
+                showToast('Link copied to clipboard!', 'success');
+            } else {
+                // Last resort: show a prompt with the URL so user can copy manually
+                prompt('Copy this link to share:', url);
+            }
+        }
+
+        // ======================== OPEN THREAD ========================
+        function openThread(post) {
+            activePostId = post.id;
+            const user = post.username || 'Anonymous';
+            const init = user.charAt(0).toUpperCase();
+            const col = avatarColor(user);
+            const replies = getReplies(post.id);
+
+            // Slide in the reply panel
+            document.querySelector('.app-container').classList.add('thread-open');
+
+            // Header
+            replyHeader.style.display = 'flex';
+            replyHeaderAvatar.style.background = col;
+            replyHeaderAvatar.textContent = init;
+            replyHeaderName.textContent = 'Replying to ' + user;
+            replyHeaderStatus.textContent = replies.length ? replies.length + ' message' + (replies.length !== 1 ? 's' : '') + ' in thread' : 'Start a conversation';
+
+            // Show thread
+            panelWelcome.style.display = 'none';
+            threadArea.style.display = 'flex';
+            replyComposer.style.display = 'flex';
+
+            // Build thread content
+            threadArea.innerHTML = '';
+
+            // Original post card
+            let imgHtml = '';
+            if (post.image_filename) {
+                const src = post.image_filename.startsWith('http') ? post.image_filename : '/static/images/' + post.image_filename;
+                imgHtml = `<div class="post-image-wrap"><img src="${src}" alt="" onclick="openLightbox('${src}')"></div>`;
+            }
+
+            const orig = document.createElement('div');
+            orig.className = 'thread-original';
+            orig.innerHTML = `
+                <div class="post-card-header">
+                    <div class="post-avatar" style="background:${col}">${init}</div>
+                    <div class="post-user-info">
+                        <div class="post-username">${esc(user)}</div>
+                        <div class="post-timestamp">${timeAgo(post.created_at)}</div>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p class="post-text">${esc(post.content)}</p>
+                    ${imgHtml}
+                </div>
+            `;
+            threadArea.appendChild(orig);
+
+            // Replies
+            if (replies.length) {
+                const divider = document.createElement('div');
+                divider.className = 'replies-divider';
+                divider.textContent = replies.length + ' Repl' + (replies.length === 1 ? 'y' : 'ies');
+                threadArea.appendChild(divider);
+
+                replies.forEach(r => {
+                    const isSent = r.type === 'sent';
+                    const rUser = isSent ? (currentUser || 'You') : user;
+                    const rInit = rUser.charAt(0).toUpperCase();
+                    const rCol = isSent ? 'linear-gradient(135deg,#2563eb,#60a5fa)' : col;
+
+                    const row = document.createElement('div');
+                    row.className = `message-row ${isSent ? 'sent' : 'received'}`;
+                    row.innerHTML = `
+                        <div class="msg-avatar" style="background:${rCol}">${rInit}</div>
+                        <div class="msg-bubble">
+                            <span class="msg-author">${esc(rUser)}</span>
+                            ${r.text}
+                            <span class="msg-time">${r.time || ''}</span>
+                        </div>
+                    `;
+                    threadArea.appendChild(row);
+                });
+            }
+
+            threadArea.scrollTop = threadArea.scrollHeight;
+
+            // Highlight active reply button in feed
+            document.querySelectorAll('.action-btn.reply').forEach(b => {
+                b.classList.toggle('active-reply', Number(b.dataset.postId) === post.id);
+            });
+
+            replyInput.focus();
+        }
+
+        // ======================== CLOSE THREAD ========================
+        function closeThread() {
+            activePostId = null;
+
+            // Slide out the reply panel
+            document.querySelector('.app-container').classList.remove('thread-open');
+
+            replyHeader.style.display = 'none';
+            threadArea.style.display = 'none';
+            replyComposer.style.display = 'none';
+
+            document.querySelectorAll('.action-btn.reply').forEach(b => b.classList.remove('active-reply'));
+        }
+
+        replyCloseBtn.addEventListener('click', closeThread);
+        backBtn.addEventListener('click', closeThread);
+
+        // ======================== SEND REPLY ========================
+        replyInput.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+        });
+
+        function sendReply() {
+            if (!activePostId) return;
+            const text = replyInput.value.trim();
+            if (!text) return;
+
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+            // Save
+            const replies = getReplies(activePostId);
+            replies.push({ type: 'sent', text: esc(text), time: timeStr });
+            localStorage.setItem('pulse_replies_' + activePostId, JSON.stringify(replies));
+            if (currentUser) localStorage.setItem('pulse_username', currentUser);
+
+            // Add bubble
+            const rUser = currentUser || 'You';
+            const rInit = rUser.charAt(0).toUpperCase();
+            const row = document.createElement('div');
+            row.className = 'message-row sent';
+            row.innerHTML = `
+                <div class="msg-avatar" style="background:linear-gradient(135deg,#2563eb,#60a5fa)">${rInit}</div>
+                <div class="msg-bubble">
+                    <span class="msg-author">${esc(rUser)}</span>
+                    ${esc(text)}
+                    <span class="msg-time">${timeStr}</span>
+                </div>
+            `;
+            threadArea.appendChild(row);
+            threadArea.scrollTop = threadArea.scrollHeight;
+
+            replyInput.value = '';
+            replyInput.style.height = 'auto';
+
+            // Update reply count header
+            const total = replies.length;
+            replyHeaderStatus.textContent = total + ' message' + (total !== 1 ? 's' : '') + ' in thread';
+
+            // Update reply counts in feed
+            renderFeed(allPosts);
+
+            // Show typing
+            showTyping();
+        }
+
+        replySendBtn.addEventListener('click', sendReply);
+        replyInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendReply(); }
+        });
+
+        const emojis = ['😀','😂','😍','🤔','👍','🔥','❤️','🎉','✨','💯'];
+        replyEmojiBtn.addEventListener('click', () => {
+            replyInput.value += emojis[Math.floor(Math.random() * emojis.length)];
+            replyInput.focus();
+        });
+
+        function showTyping() {
+            const ind = document.getElementById('typingIndicator');
+            ind.classList.add('active');
+            setTimeout(() => ind.classList.remove('active'), 2000);
+        }
+
+        // ======================== NEW POST MODAL ========================
+        newPostBtn.addEventListener('click', () => {
+            newPostModal.classList.add('active');
+            if (currentUser) modalUsername.value = currentUser;
+            modalContent.focus();
+        });
+
+        function closeModal() {
+            newPostModal.classList.remove('active');
+            postForm.reset();
+            modalPreview.classList.remove('active');
+        }
+
+        modalCloseBtn.addEventListener('click', closeModal);
+        modalCancelBtn.addEventListener('click', closeModal);
+        newPostModal.addEventListener('click', (e) => { if (e.target === newPostModal) closeModal(); });
+
+        modalImageInput.addEventListener('change', function () {
+            const f = this.files[0];
+            if (f) {
+                const r = new FileReader();
+                r.onload = (e) => { modalPreviewImg.src = e.target.result; modalPreview.classList.add('active'); };
+                r.readAsDataURL(f);
+            }
+        });
+
+        modalPreviewRemove.addEventListener('click', () => {
+            modalImageInput.value = '';
+            modalPreview.classList.remove('active');
+        });
+
+        postForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = modalUsername.value.trim();
+            if (name) { currentUser = name; localStorage.setItem('pulse_username', name); }
+
+            modalSubmitBtn.classList.add('loading');
+            modalSubmitBtn.disabled = true;
+
+            try {
+                const fd = new FormData(this);
+                const res = await fetch('/tweet', { method: 'POST', body: fd });
+                if (res.ok) {
+                    showToast('Posted successfully!');
+                    closeModal();
+                    loadData();
+                } else {
+                    showToast('Failed to post.', 'error');
+                }
+            } catch (err) {
+                showToast('Connection error.', 'error');
+            }
+
+            modalSubmitBtn.classList.remove('loading');
+            modalSubmitBtn.disabled = false;
+        });
+
+        // ======================== IMAGE LIGHTBOX ========================
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            imageLightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            imageLightbox.classList.remove('active');
+        }
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        imageLightbox.addEventListener('click', (e) => { if (e.target === imageLightbox) closeLightbox(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (imageLightbox.classList.contains('active')) closeLightbox();
+                if (newPostModal.classList.contains('active')) closeModal();
+            }
+        });
+
+        // ======================== INIT ========================
+        if (currentUser) modalUsername.value = currentUser;
+        window.onload = loadData;
+    </script>
+>>>>>>> 941ddf1634fdb4587635d1c789f280523733c8a4
 </body>
 
 </html>
