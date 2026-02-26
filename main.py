@@ -11,9 +11,7 @@ import boto3
 
 app = FastAPI()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-app.mount(
-    "/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # CONFIGURATION
 DB_HOST = "10.0.11.186"
@@ -46,7 +44,7 @@ def upload_to_s3(file_obj, filename):
 
 @app.get("/")
 def read_index():
-    return FileResponse(os.path.join(BASE_DIR, "index.html"))
+    return FileResponse("/var/www/html/index.html")
 
 
 @app.get("/tweets")
