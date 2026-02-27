@@ -11,11 +11,7 @@ import boto3
 
 app = FastAPI()
 
-# Use local ./static when it exists (dev), fall back to EC2 path
-_static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
-if not os.path.isdir(_static_dir):
-    _static_dir = "/var/www/html/static"
-app.mount("/static", StaticFiles(directory=_static_dir), name="static")
+app.mount("/static", StaticFiles(directory="/home/ubuntu/my_project/static"), name="static")
 
 # CONFIGURATION
 DB_HOST = "10.0.11.186"
@@ -48,11 +44,7 @@ def upload_to_s3(file_obj, filename):
 
 @app.get("/")
 def read_index():
-    import os
-    if os.path.exists("index.html"):
-        return FileResponse("index.html")
-    # Fallback for EC2 if it's placed in /var/www/html
-    return FileResponse("/var/www/html/index.html")
+    return FileResponse("/home/ubuntu/my_project/index.html")
 
 
 @app.get("/tweets")
