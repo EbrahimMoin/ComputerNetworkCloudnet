@@ -11,7 +11,7 @@ import boto3
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="/var/www/html/static"), name="static")
 
 # CONFIGURATION
 DB_HOST = "10.0.11.186"
