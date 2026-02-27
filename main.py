@@ -44,6 +44,10 @@ def upload_to_s3(file_obj, filename):
 
 @app.get("/")
 def read_index():
+    import os
+    if os.path.exists("index.html"):
+        return FileResponse("index.html")
+    # Fallback for EC2 if it's placed in /var/www/html
     return FileResponse("/var/www/html/index.html")
 
 
