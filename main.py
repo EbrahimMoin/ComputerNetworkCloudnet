@@ -11,7 +11,11 @@ import boto3
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="/var/www/html/static"), name="static")
+# Use local ./static when it exists (dev), fall back to EC2 path
+_static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+if not os.path.isdir(_static_dir):
+    _static_dir = "/var/www/html/static"
+app.mount("/static", StaticFiles(directory=_static_dir), name="static")
 
 # CONFIGURATION
 DB_HOST = "10.0.11.186"
@@ -35,7 +39,7 @@ def upload_to_s3(file_obj, filename):
     s3 = boto3.client('s3', region_name=S3_REGION)
     try:
         s3.upload_fileobj(file_obj, S3_BUCKET, filename, ExtraArgs={
-                          'ACL': 'public-read', 'ContentType': 'image/jpeg'})
+                          'ContentType': 'image/jpeg'})
         return f"{CLOUDFRONT_URL}/{filename}"
     except Exception as e:
         print("S3 Upload Error:", e)
