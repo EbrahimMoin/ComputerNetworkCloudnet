@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: cloudnet-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cloudnet}
+      POSTGRES_USER: ${POSTGRES_USER:-cloudnet}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cloudnet_secret}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - cloudnet-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloudnet-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      - db
+    networks:
+      - cloudnet-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: cloudnet-nginx
+    restart: unless-stopped
+    ports:
+      - "8100:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./static:/usr/share/nginx/html/static:ro
+      - uploads:/usr/share/nginx/html/uploads
+    depends_on:
+      - api
+    networks:
+      - cloudnet-network
+
+volumes:
+  pgdata:
+  uploads:
+
+networks:
+  cloudnet-network:
+    driver: bridge
